@@ -30,10 +30,10 @@ class Player
     @x += @vel_x
     @y += @vel_y
     @x %= 640
-    @y %= 320
+    @y %= 480
 
-    @vel_x *= 0.95
-    @vel_y *= 0.95
+    @vel_x *= 0.925
+    @vel_y *= 0.925
   end
 
   def draw
