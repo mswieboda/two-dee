@@ -1,27 +1,29 @@
+require 'pry'
+
 require 'gosu'
 require_relative 'player'
 
-class MyWindow < Gosu::Window
+class TwoDee < Gosu::Window
   def initialize
-    super(640, 480, false)
+    super(Gosu::available_width, Gosu::available_height, false)
     self.caption = 'Hello World!'
-
     @background_image = Gosu::Image.new(self, "media/space.jpg", true)
 
     @player = Player.new(self)
-    @player.jump_to(320, 240)
+    @player.jump_to(width / 2, height - height / 10)
   end
 
   def update
-    @player.turn_left if button_down?(Gosu::KbLeft) || button_down?(Gosu::GpLeft)
-    @player.turn_right if button_down?(Gosu::KbRight) || button_down?(Gosu::GpRight)
-    @player.accelerate if button_down?(Gosu::KbUp) || button_down?(Gosu::GpButton0)
+    @player.left if button_down?(Gosu::KbLeft)
+    @player.right if button_down?(Gosu::KbRight)
+    @player.accelerate if button_down?(Gosu::KbUp)
+    @player.reverse if button_down?(Gosu::KbDown)
     @player.move
   end
 
   def draw
     @player.draw
-    @background_image.draw(0, 0, 0)
+    @background_image.draw(0, 0, 0, 5, 5)
   end
 
   def button_down(id)
@@ -29,5 +31,5 @@ class MyWindow < Gosu::Window
   end
 end
 
-window = MyWindow.new
+window = TwoDee.new
 window.show

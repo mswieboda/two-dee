@@ -1,5 +1,13 @@
+require 'pry'
+
 class Player
+  attr_reader :window
+
+  AMOUNT = 1.5
+
   def initialize(window)
+    @window = window
+
     @image = Gosu::Image.new(window, "media/fighter.jpg", false)
     @x = @y = @vel_x = @vel_y = @angle = 0.0
   end
@@ -21,19 +29,33 @@ class Player
     turn(4.5)
   end
 
+  def left
+    @vel_x -= AMOUNT
+  end
+
+  def right
+    @vel_x += AMOUNT
+  end
+
   def accelerate
-    @vel_x += Gosu::offset_x(@angle, 0.5)
-    @vel_y += Gosu::offset_y(@angle, 0.5)
+    @vel_x += Gosu::offset_x(@angle, AMOUNT / 2)
+    @vel_y += Gosu::offset_y(@angle, AMOUNT / 2)
+  end
+
+  def reverse
+    @vel_x -= Gosu::offset_x(@angle, AMOUNT / 2)
+    @vel_y -= Gosu::offset_y(@angle, AMOUNT / 2)
   end
 
   def move
     @x += @vel_x
     @y += @vel_y
-    @x %= 640
-    @y %= 480
+    @x %= window.width
+    @y %= window.height
 
-    @vel_x *= 0.925
-    @vel_y *= 0.925
+    # slow down
+    @vel_x *= 0.9
+    @vel_y *= 0.9
   end
 
   def draw
