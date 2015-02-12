@@ -13,6 +13,10 @@ class TwoDee < Gosu::Window
     @player.jump_to(width / 2, height - height / 10)
   end
 
+  def needs_cursor?
+    true
+  end
+
   def update
     @player.left if button_down?(Gosu::KbLeft)
     @player.right if button_down?(Gosu::KbRight)
@@ -28,6 +32,7 @@ class TwoDee < Gosu::Window
 
   def button_down(id)
     close if id == Gosu::KbEscape
+    puts mouse_x if id == Gosu::MsLeft
   end
 end
 
